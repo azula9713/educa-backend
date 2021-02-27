@@ -100,6 +100,7 @@ exports.updateStudentSchema = [
         "first_name",
         "last_name",
         "batch_id",
+        "avatar",
       ];
       return updates.every((update) => allowUpdates.includes(update));
     })

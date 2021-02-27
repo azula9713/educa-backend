@@ -35,11 +35,12 @@ class TeacherModel {
     first_name,
     last_name,
     nic,
+    avatar,
     mobile,
     role = Role.SuperUser,
   }) => {
     const sql = `INSERT INTO ${this.tableName}
-        (email, password, first_name, last_name, nic, mobile, role) VALUES (?,?,?,?,?,?,?)`;
+        (email, password, first_name, last_name, nic, avatar, mobile, role) VALUES (?,?,?,?,?,?,?,?)`;
 
     const result = await query(sql, [
       email,
@@ -47,6 +48,7 @@ class TeacherModel {
       first_name,
       last_name,
       nic,
+      avatar,
       mobile,
       role,
     ]);
@@ -58,7 +60,7 @@ class TeacherModel {
   update = async (params, id) => {
     const { columnSet, values } = multipleColumnSet(params);
 
-    const sql = `UPDATE teacher SET ${columnSet} WHERE id = ?`;
+    const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE id = ?`;
 
     const result = await query(sql, [...values, id]);
 

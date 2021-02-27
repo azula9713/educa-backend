@@ -106,6 +106,7 @@ exports.updateTeacherSchema = [
         "mobile",
         "first_name",
         "last_name",
+        "avatar",
       ];
       return updates.every((update) => allowUpdates.includes(update));
     })

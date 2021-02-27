@@ -1,5 +1,5 @@
 const { body } = require("express-validator");
-const Role = require("../../utils/teacherRoles.utils");
+const Role = require("../../utils/Roles.utils");
 
 exports.createTeacherSchema = [
   body("first_name")
@@ -23,6 +23,7 @@ exports.createTeacherSchema = [
     .withMessage("Must be a valid email")
     .normalizeEmail(),
   body("nic").exists().withMessage("NIC is required"),
+  body("avatar").exists().withMessage("Profile picture is required"),
   body("mobile")
     .exists()
     .withMessage("Mobile is required")

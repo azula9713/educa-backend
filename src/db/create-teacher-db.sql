@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS teacher
      first_name VARCHAR(50) NOT NULL, 
      last_name  VARCHAR(50) NOT NULL, 
      nic      	 VARCHAR(20) UNIQUE NOT NULL, 
-     avatar     VARCHAR(100),
+     avatar     VARCHAR(100) NOT NULL,
      mobile     VARCHAR(50) UNIQUE NOT NULL, 
      role       ENUM('SuperUser', 'Teacher', 'Student') DEFAULT 'SuperUser'
   ); 
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS student
    password   CHAR(60) NOT NULL, 
    first_name VARCHAR(50) NOT NULL, 
    last_name  VARCHAR(50) NOT NULL, 
-   avatar     VARCHAR(100),
+   avatar     VARCHAR(100) NOT NULL,
    mobile     VARCHAR(50) UNIQUE NOT NULL, 
    batch_id   INT DEFAULT 0, 
    role       ENUM('SuperUser', 'Teacher', 'Student') DEFAULT 'Student'

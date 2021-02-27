@@ -22,6 +22,7 @@ exports.createStudentSchema = [
     .isEmail()
     .withMessage("Must be a valid email")
     .normalizeEmail(),
+  body("avatar").exists().withMessage("Profile Picture is required"),
   body("mobile")
     .exists()
     .withMessage("Mobile is required")

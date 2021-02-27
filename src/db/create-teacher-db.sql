@@ -26,6 +26,9 @@ CREATE TABLE IF NOT EXISTS student
    last_name  VARCHAR(50) NOT NULL, 
    avatar     VARCHAR(100) NOT NULL,
    mobile     VARCHAR(50) UNIQUE NOT NULL, 
-   batch_id   INT DEFAULT 0, 
-   role       ENUM('SuperUser', 'Teacher', 'Student') DEFAULT 'Student'
+   batch_id   INT DEFAULT 0,
+   isApproved BOOLEAN NOT NULL DEFAULT FALSE,
+   isPaid BOOLEAN NOT NULL DEFAULT FALSE,
+   role       ENUM('SuperUser', 'Teacher', 'Student') DEFAULT 'Student',
+   registered_date DATETIME DEFAULT CURRENT_TIMESTAMP
 ); 

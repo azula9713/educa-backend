@@ -17,6 +17,32 @@ class StudentModel {
     return await query(sql, [...values]);
   };
 
+  findPending = async (params = {}) => {
+    let sql = `SELECT * FROM ${this.tableName} WHERE isApproved=false`;
+
+    if (!Object.keys(params).length) {
+      return await query(sql);
+    }
+
+    const { columnSet, values } = multipleColumnSet(params);
+    sql += ` WHERE ${columnSet}`;
+
+    return await query(sql, [...values]);
+  };
+
+  findAccepted = async (params = {}) => {
+    let sql = `SELECT * FROM ${this.tableName} WHERE isApproved=true`;
+
+    if (!Object.keys(params).length) {
+      return await query(sql);
+    }
+
+    const { columnSet, values } = multipleColumnSet(params);
+    sql += ` WHERE ${columnSet}`;
+
+    return await query(sql, [...values]);
+  };
+
   findOne = async (params) => {
     const { columnSet, values } = multipleColumnSet(params);
 

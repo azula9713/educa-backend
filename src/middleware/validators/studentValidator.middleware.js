@@ -102,6 +102,8 @@ exports.updateStudentSchema = [
         "last_name",
         "batch_id",
         "avatar",
+        "isPaid",
+        "isApproved",
       ];
       return updates.every((update) => allowUpdates.includes(update));
     })

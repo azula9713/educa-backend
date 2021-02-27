@@ -12,11 +12,17 @@ const {
   validateLogin,
 } = require("../middleware/validators/studentValidator.middleware");
 
+router.get("/", auth(), awaitHandlerFactory(studentController.getAllStudents)); // localhost:3000/api/v1/users
 router.get(
-  "/",
-  studentAuth(),
-  awaitHandlerFactory(studentController.getAllStudents)
-); // localhost:3000/api/v1/users
+  "/pending",
+  auth(),
+  awaitHandlerFactory(studentController.getAllPendingStudents)
+);
+router.get(
+  "/accepted",
+  auth(),
+  awaitHandlerFactory(studentController.getAllAcceptedStudents)
+);
 router.get(
   "/id/:id",
   studentAuth(),

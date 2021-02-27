@@ -24,6 +24,34 @@ class StudentController {
     res.send(studentList);
   };
 
+  getAllPendingStudents = async (req, res, next) => {
+    let studentList = await StudentModel.findPending();
+    if (!studentList.length) {
+      throw new HttpException(404, "No non accepted students found");
+    }
+
+    studentList = studentList.map((student) => {
+      const { password, ...studentrWithoutPassword } = student;
+      return studentrWithoutPassword;
+    });
+
+    res.send(studentList);
+  };
+
+  getAllAcceptedStudents = async (req, res, next) => {
+    let studentList = await StudentModel.findAccepted();
+    if (!studentList.length) {
+      throw new HttpException(404, "No non accepted students found");
+    }
+
+    studentList = studentList.map((student) => {
+      const { password, ...studentrWithoutPassword } = student;
+      return studentrWithoutPassword;
+    });
+
+    res.send(studentList);
+  };
+
   getStudentById = async (req, res, next) => {
     const student = await StudentModel.findOne({ id: req.params.id });
     if (!student) {

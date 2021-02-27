@@ -1,8 +1,8 @@
 const query = require("../db/db-connection");
 const { multipleColumnSet } = require("../utils/common.utils");
 const Role = require("../utils/Roles.utils");
-class TeacherModel {
-  tableName = "teacher";
+class StudentModel {
+  tableName = "students";
 
   find = async (params = {}) => {
     let sql = `SELECT * FROM ${this.tableName}`;
@@ -75,4 +75,4 @@ class TeacherModel {
   };
 }
 
-module.exports = new TeacherModel();
+module.exports = new StudentModel();

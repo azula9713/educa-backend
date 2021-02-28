@@ -1,11 +1,37 @@
 const query = require("../db/db-connection");
 const { multipleColumnSet } = require("../utils/common.utils");
 const Role = require("../utils/Roles.utils");
-class TeacherModel {
-  tableName = "teacher";
+class StudentModel {
+  tableName = "student";
 
   find = async (params = {}) => {
     let sql = `SELECT * FROM ${this.tableName}`;
+
+    if (!Object.keys(params).length) {
+      return await query(sql);
+    }
+
+    const { columnSet, values } = multipleColumnSet(params);
+    sql += ` WHERE ${columnSet}`;
+
+    return await query(sql, [...values]);
+  };
+
+  findPending = async (params = {}) => {
+    let sql = `SELECT * FROM ${this.tableName} WHERE isApproved=false`;
+
+    if (!Object.keys(params).length) {
+      return await query(sql);
+    }
+
+    const { columnSet, values } = multipleColumnSet(params);
+    sql += ` WHERE ${columnSet}`;
+
+    return await query(sql, [...values]);
+  };
+
+  findAccepted = async (params = {}) => {
+    let sql = `SELECT * FROM ${this.tableName} WHERE isApproved=true`;
 
     if (!Object.keys(params).length) {
       return await query(sql);
@@ -25,7 +51,7 @@ class TeacherModel {
 
     const result = await query(sql, [...values]);
 
-    // return back the first row (teacher)
+    // return back the first row (student)
     return result[0];
   };
 
@@ -34,22 +60,22 @@ class TeacherModel {
     password,
     first_name,
     last_name,
-    nic,
     avatar,
     mobile,
-    role = Role.SuperUser,
+    batch_id,
+    role = Role.Student,
   }) => {
     const sql = `INSERT INTO ${this.tableName}
-        (email, password, first_name, last_name, nic, avatar, mobile, role) VALUES (?,?,?,?,?,?,?,?)`;
+        (email, password, first_name, last_name, avatar, mobile, batch_id, role) VALUES (?,?,?,?,?,?,?,?)`;
 
     const result = await query(sql, [
       email,
       password,
       first_name,
       last_name,
-      nic,
       avatar,
       mobile,
+      batch_id,
       role,
     ]);
     const affectedRows = result ? result.affectedRows : 0;
@@ -77,4 +103,4 @@ class TeacherModel {
   };
 }
 
-module.exports = new TeacherModel();
+module.exports = new StudentModel();

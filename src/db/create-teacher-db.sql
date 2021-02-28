@@ -11,7 +11,8 @@ CREATE TABLE IF NOT EXISTS teacher
      password   CHAR(60) NOT NULL, 
      first_name VARCHAR(50) NOT NULL, 
      last_name  VARCHAR(50) NOT NULL, 
-     nic      	VARCHAR(20) UNIQUE NOT NULL, 
+     nic      	 VARCHAR(20) UNIQUE NOT NULL, 
+     avatar     VARCHAR(100) NOT NULL,
      mobile     VARCHAR(50) UNIQUE NOT NULL, 
      role       ENUM('SuperUser', 'Teacher', 'Student') DEFAULT 'SuperUser'
   ); 
@@ -23,7 +24,11 @@ CREATE TABLE IF NOT EXISTS student
    password   CHAR(60) NOT NULL, 
    first_name VARCHAR(50) NOT NULL, 
    last_name  VARCHAR(50) NOT NULL, 
+   avatar     VARCHAR(100) NOT NULL,
    mobile     VARCHAR(50) UNIQUE NOT NULL, 
-   batch      INT DEFAULT 0, 
-   role       ENUM('SuperUser', 'Teacher', 'Student') DEFAULT 'SuperUser'
+   batch_id   INT DEFAULT 0,
+   isApproved BOOLEAN NOT NULL DEFAULT FALSE,
+   isPaid BOOLEAN NOT NULL DEFAULT FALSE,
+   role       ENUM('SuperUser', 'Teacher', 'Student') DEFAULT 'Student',
+   registered_date DATETIME DEFAULT CURRENT_TIMESTAMP
 ); 

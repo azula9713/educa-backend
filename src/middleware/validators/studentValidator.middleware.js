@@ -1,7 +1,7 @@
 const { body } = require("express-validator");
 const Role = require("../../utils/Roles.utils");
 
-exports.createTeacherSchema = [
+exports.createStudentSchema = [
   body("first_name")
     .exists()
     .withMessage("Your first name is required")
@@ -22,18 +22,15 @@ exports.createTeacherSchema = [
     .isEmail()
     .withMessage("Must be a valid email")
     .normalizeEmail(),
-  body("nic").exists().withMessage("NIC is required"),
-  body("avatar").exists().withMessage("Profile picture is required"),
+  body("avatar").exists().withMessage("Profile Picture is required"),
   body("mobile")
     .exists()
     .withMessage("Mobile is required")
     .isMobilePhone()
     .withMessage("Must be a valid mobile number")
     .trim(),
-  body("role")
-    .optional()
-    .isIn([Role.Teacher, Role.SuperUser])
-    .withMessage("Invalid Role type"),
+  body("batch_id").exists().withMessage("Batch ID is required"),
+  body("role").optional().isIn(Role.Student).withMessage("Invalid Role type"),
   body("password")
     .exists()
     .withMessage("Password is required")
@@ -50,7 +47,7 @@ exports.createTeacherSchema = [
     ),
 ];
 
-exports.updateTeacherSchema = [
+exports.updateStudentSchema = [
   body("first_name")
     .optional()
     .isAlpha()
@@ -68,15 +65,11 @@ exports.updateTeacherSchema = [
     .isEmail()
     .withMessage("Must be a valid email")
     .normalizeEmail(),
-  body("nic").optional(),
   body("mobile")
     .optional()
     .isMobilePhone()
     .withMessage("Must be a valid mobile number"),
-  body("role")
-    .optional()
-    .isIn([Role.Teacher, Role.SuperUser])
-    .withMessage("Invalid Role type"),
+  body("role").optional().isIn(Role.Student).withMessage("Invalid Role type"),
   body("password")
     .optional()
     .notEmpty()
@@ -107,7 +100,10 @@ exports.updateTeacherSchema = [
         "mobile",
         "first_name",
         "last_name",
+        "batch_id",
         "avatar",
+        "isPaid",
+        "isApproved",
       ];
       return updates.every((update) => allowUpdates.includes(update));
     })

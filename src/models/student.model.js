@@ -1,6 +1,5 @@
 const query = require("../db/db-connection");
 const { multipleColumnSet } = require("../utils/common.utils");
-const Role = require("../utils/Roles.utils");
 class StudentModel {
   tableName = "student";
 
@@ -18,7 +17,7 @@ class StudentModel {
   };
 
   findPending = async (params = {}) => {
-    let sql = `SELECT * FROM ${this.tableName} WHERE isApproved=false`;
+    let sql = `SELECT * FROM ${this.tableName} WHERE is_approved=false`;
 
     if (!Object.keys(params).length) {
       return await query(sql);
@@ -31,7 +30,7 @@ class StudentModel {
   };
 
   findAccepted = async (params = {}) => {
-    let sql = `SELECT * FROM ${this.tableName} WHERE isApproved=true`;
+    let sql = `SELECT * FROM ${this.tableName} WHERE is_approved=true`;
 
     if (!Object.keys(params).length) {
       return await query(sql);
@@ -62,11 +61,10 @@ class StudentModel {
     last_name,
     avatar,
     mobile,
-    batch_id,
-    role = Role.Student,
+    grade_id,
   }) => {
     const sql = `INSERT INTO ${this.tableName}
-        (email, password, first_name, last_name, avatar, mobile, batch_id, role) VALUES (?,?,?,?,?,?,?,?)`;
+        (email, password, first_name, last_name, avatar, mobile, grade_id) VALUES (?,?,?,?,?,?,?)`;
 
     const result = await query(sql, [
       email,
@@ -75,8 +73,7 @@ class StudentModel {
       last_name,
       avatar,
       mobile,
-      batch_id,
-      role,
+      grade_id,
     ]);
     const affectedRows = result ? result.affectedRows : 0;
 
@@ -86,7 +83,7 @@ class StudentModel {
   update = async (params, id) => {
     const { columnSet, values } = multipleColumnSet(params);
 
-    const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE id = ?`;
+    const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE student_id = ?`;
 
     const result = await query(sql, [...values, id]);
 
@@ -95,7 +92,7 @@ class StudentModel {
 
   delete = async (id) => {
     const sql = `DELETE FROM ${this.tableName}
-        WHERE id = ?`;
+        WHERE student_id = ?`;
     const result = await query(sql, [id]);
     const affectedRows = result ? result.affectedRows : 0;
 

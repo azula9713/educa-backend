@@ -1,6 +1,5 @@
 const query = require("../db/db-connection");
 const { multipleColumnSet } = require("../utils/common.utils");
-const Role = require("../utils/Roles.utils");
 class TeacherModel {
   tableName = "teacher";
 
@@ -37,10 +36,9 @@ class TeacherModel {
     nic,
     avatar,
     mobile,
-    role = Role.SuperUser,
   }) => {
     const sql = `INSERT INTO ${this.tableName}
-        (email, password, first_name, last_name, nic, avatar, mobile, role) VALUES (?,?,?,?,?,?,?,?)`;
+        (email, password, first_name, last_name, nic, avatar, mobile) VALUES (?,?,?,?,?,?,?)`;
 
     const result = await query(sql, [
       email,
@@ -50,7 +48,6 @@ class TeacherModel {
       nic,
       avatar,
       mobile,
-      role,
     ]);
     const affectedRows = result ? result.affectedRows : 0;
 
@@ -60,7 +57,7 @@ class TeacherModel {
   update = async (params, id) => {
     const { columnSet, values } = multipleColumnSet(params);
 
-    const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE id = ?`;
+    const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE teahcer_id = ?`;
 
     const result = await query(sql, [...values, id]);
 
@@ -69,7 +66,7 @@ class TeacherModel {
 
   delete = async (id) => {
     const sql = `DELETE FROM ${this.tableName}
-        WHERE id = ?`;
+        WHERE teacher_id = ?`;
     const result = await query(sql, [id]);
     const affectedRows = result ? result.affectedRows : 0;
 

@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const auth = (...roles) => {
+const auth = () => {
   return async function (req, res, next) {
     try {
       const authHeader = req.headers.authorization;
@@ -31,9 +31,9 @@ const auth = (...roles) => {
       // if the current teacher is not the owner and
       // if the teacher role don't have the permission to do this action.
       // the teacher will get this error
-      if (!ownerAuthorized && roles.length && !roles.includes(teacher.role)) {
-        throw new HttpException(401, "Unauthorized");
-      }
+      // if (!ownerAuthorized && roles.length && !roles.includes(teacher.role)) {
+      //   throw new HttpException(401, "Unauthorized");
+      // }
 
       // if the teacher has permissions
       req.currentTeacher = teacher;

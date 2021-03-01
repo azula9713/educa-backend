@@ -1,5 +1,4 @@
 const { body } = require("express-validator");
-const Role = require("../../utils/Roles.utils");
 
 exports.createStudentSchema = [
   body("first_name")
@@ -23,14 +22,13 @@ exports.createStudentSchema = [
     .withMessage("Must be a valid email")
     .normalizeEmail(),
   body("avatar").exists().withMessage("Profile Picture is required"),
+  body("grade_id").exists().withMessage("Grade is required"),
   body("mobile")
     .exists()
     .withMessage("Mobile is required")
     .isMobilePhone()
     .withMessage("Must be a valid mobile number")
     .trim(),
-  body("batch_id").exists().withMessage("Batch ID is required"),
-  body("role").optional().isIn(Role.Student).withMessage("Invalid Role type"),
   body("password")
     .exists()
     .withMessage("Password is required")
@@ -69,7 +67,9 @@ exports.updateStudentSchema = [
     .optional()
     .isMobilePhone()
     .withMessage("Must be a valid mobile number"),
-  body("role").optional().isIn(Role.Student).withMessage("Invalid Role type"),
+  body("avatar").optional(),
+  body("grade_id").optional(),
+  body("is_approved").optional(),
   body("password")
     .optional()
     .notEmpty()
@@ -96,14 +96,13 @@ exports.updateStudentSchema = [
         "password",
         "confirm_password",
         "email",
-        "role",
         "mobile",
         "first_name",
         "last_name",
-        "batch_id",
+        "grade_id",
         "avatar",
         "isPaid",
-        "isApproved",
+        "is_pproved",
       ];
       return updates.every((update) => allowUpdates.includes(update));
     })

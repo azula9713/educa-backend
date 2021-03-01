@@ -17,7 +17,7 @@ class StudentModel {
   };
 
   findPending = async (params = {}) => {
-    let sql = `SELECT * FROM ${this.tableName} WHERE is_approved=false`;
+    let sql = `SELECT grade.grade_name,student.* FROM ${this.tableName} INNER JOIN grade ON grade.grade_id=student.grade_id WHERE student.is_approved=false`;
 
     if (!Object.keys(params).length) {
       return await query(sql);
@@ -81,13 +81,17 @@ class StudentModel {
   };
 
   update = async (params, id) => {
-    const { columnSet, values } = multipleColumnSet(params);
+    try {
+      const { columnSet, values } = multipleColumnSet(params);
 
-    const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE student_id = ?`;
+      const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE student_id = ?`;
 
-    const result = await query(sql, [...values, id]);
+      const result = await query(sql, [...values, id]);
 
-    return result;
+      return result;
+    } catch (err) {
+      console.log("error is:" + err);
+    }
   };
 
   delete = async (id) => {

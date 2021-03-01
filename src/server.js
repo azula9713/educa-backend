@@ -14,9 +14,12 @@ dotenv.config();
 // parses incoming requests with JSON payloads
 app.use(express.json());
 // enabling cors for all requests by using cors middleware
-app.use(cors());
-// Enable pre-flight
-app.options("*", cors());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    credentials: true,
+  })
+);
 
 const port = Number(process.env.PORT || 3331);
 

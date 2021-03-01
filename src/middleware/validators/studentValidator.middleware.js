@@ -101,8 +101,7 @@ exports.updateStudentSchema = [
         "last_name",
         "grade_id",
         "avatar",
-        "isPaid",
-        "is_pproved",
+        "is_approved",
       ];
       return updates.every((update) => allowUpdates.includes(update));
     })

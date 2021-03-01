@@ -25,7 +25,7 @@ class TeacherController {
   };
 
   getTeacherById = async (req, res, next) => {
-    const teacher = await TeacherModel.findOne({ id: req.params.id });
+    const teacher = await TeacherModel.findOne({ teacher_id: req.params.id });
     if (!teacher) {
       throw new HttpException(404, "Teacher not found");
     }

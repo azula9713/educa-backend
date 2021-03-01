@@ -13,7 +13,7 @@ class StudentController {
   getAllStudents = async (req, res, next) => {
     let studentList = await StudentModel.find();
     if (!studentList.length) {
-      throw new HttpException(404, "Students not found");
+      throw new HttpException(204, "Students not found");
     }
 
     studentList = studentList.map((student) => {
@@ -27,7 +27,8 @@ class StudentController {
   getAllPendingStudents = async (req, res, next) => {
     let studentList = await StudentModel.findPending();
     if (!studentList.length) {
-      throw new HttpException(404, "No non accepted students found");
+      // res.send("No non accepted students found");
+      throw new HttpException(204, "No pending students found!");
     }
 
     studentList = studentList.map((student) => {
@@ -41,7 +42,7 @@ class StudentController {
   getAllAcceptedStudents = async (req, res, next) => {
     let studentList = await StudentModel.findAccepted();
     if (!studentList.length) {
-      throw new HttpException(404, "No non accepted students found");
+      throw new HttpException(204, "No accepted students found");
     }
 
     studentList = studentList.map((student) => {
@@ -55,7 +56,7 @@ class StudentController {
   getStudentById = async (req, res, next) => {
     const student = await StudentModel.findOne({ student_id: req.params.id });
     if (!student) {
-      throw new HttpException(404, "Student not found");
+      throw new HttpException(204, "Student not found");
     }
 
     const { password, ...studentWithoutPassword } = student;
@@ -66,7 +67,7 @@ class StudentController {
   getStudentByEmail = async (req, res, next) => {
     const student = await StudentModel.findOne({ email: req.params.email });
     if (!student) {
-      throw new HttpException(404, "Student not found");
+      throw new HttpException(204, "Student not found");
     }
 
     const { password, ...studentWithoutPassword } = student;
@@ -123,7 +124,7 @@ class StudentController {
   deleteStudent = async (req, res, next) => {
     const result = await StudentModel.delete(req.params.id);
     if (!result) {
-      throw new HttpException(404, "Student not found");
+      throw new HttpException(204, "Student not found");
     }
     res.send("Student has been deleted");
   };
@@ -147,9 +148,13 @@ class StudentController {
 
     // student matched!
     const secretKey = process.env.SECRET_JWT || "";
-    const token = jwt.sign({ student_id: student.student_id.toString() }, secretKey, {
-      expiresIn: "24h",
-    });
+    const token = jwt.sign(
+      { student_id: student.student_id.toString() },
+      secretKey,
+      {
+        expiresIn: "24h",
+      }
+    );
 
     const { password, ...studentWithoutPassword } = student;
 

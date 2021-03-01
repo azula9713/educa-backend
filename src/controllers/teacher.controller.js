@@ -13,7 +13,7 @@ class TeacherController {
   getAllTeachers = async (req, res, next) => {
     let teacherList = await TeacherModel.find();
     if (!teacherList.length) {
-      throw new HttpException(404, "Teachers not found");
+      throw new HttpException(204, "Teachers not found");
     }
 
     teacherList = teacherList.map((teacher) => {
@@ -27,7 +27,7 @@ class TeacherController {
   getTeacherById = async (req, res, next) => {
     const teacher = await TeacherModel.findOne({ teacher_id: req.params.id });
     if (!teacher) {
-      throw new HttpException(404, "Teacher not found");
+      throw new HttpException(204, "Teacher not found");
     }
 
     const { password, ...teacherWithoutPassword } = teacher;
@@ -38,7 +38,7 @@ class TeacherController {
   getTeacherByEmail = async (req, res, next) => {
     const teacher = await TeacherModel.findOne({ email: req.params.email });
     if (!teacher) {
-      throw new HttpException(404, "Teacher not found");
+      throw new HttpException(204, "Teacher not found");
     }
 
     const { password, ...teacherWithoutPassword } = teacher;
@@ -95,7 +95,7 @@ class TeacherController {
   deleteTeacher = async (req, res, next) => {
     const result = await TeacherModel.delete(req.params.id);
     if (!result) {
-      throw new HttpException(404, "Teacher not found");
+      throw new HttpException(204, "Teacher not found");
     }
     res.send("Teacher has been deleted");
   };
@@ -119,9 +119,13 @@ class TeacherController {
 
     // teacher matched!
     const secretKey = process.env.SECRET_JWT || "";
-    const token = jwt.sign({ teacher_id: teacher.teacher_id.toString() }, secretKey, {
-      expiresIn: "24h",
-    });
+    const token = jwt.sign(
+      { teacher_id: teacher.teacher_id.toString() },
+      secretKey,
+      {
+        expiresIn: "24h",
+      }
+    );
 
     const { password, ...teacherWithoutPassword } = teacher;
 

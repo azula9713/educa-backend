@@ -30,7 +30,7 @@ class StudentModel {
   };
 
   findAccepted = async (params = {}) => {
-    let sql = `SELECT * FROM ${this.tableName} WHERE is_approved=true`;
+    let sql = `SELECT grade.grade_name,student.* FROM ${this.tableName} INNER JOIN grade ON grade.grade_id=student.grade_id WHERE student.is_approved=true`;
 
     if (!Object.keys(params).length) {
       return await query(sql);

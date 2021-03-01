@@ -19,7 +19,7 @@ const studentAuth = () => {
 
       // Verify Token
       const decoded = jwt.verify(token, secretKey);
-      const student = await StudentModel.findOne({ id: decoded.student_id });
+      const student = await StudentModel.findOne({ student_id: decoded.student_id });
 
       if (!student) {
         throw new HttpException(401, "Authentication failed!");

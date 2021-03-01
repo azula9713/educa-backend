@@ -19,14 +19,14 @@ const auth = () => {
 
       // Verify Token
       const decoded = jwt.verify(token, secretKey);
-      const teacher = await TeacherModel.findOne({ id: decoded.teacher_id });
+      const teacher = await TeacherModel.findOne({ teacher_id: decoded.teacher_id });
 
       if (!teacher) {
         throw new HttpException(401, "Authentication failed!");
       }
 
       // check if the current teacher is the owner teacher
-      const ownerAuthorized = req.params.id == teacher.id;
+      const ownerAuthorized = req.params.id == teacher.teacher_id;
 
       // if the current teacher is not the owner and
       // if the teacher role don't have the permission to do this action.

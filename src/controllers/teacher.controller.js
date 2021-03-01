@@ -119,7 +119,7 @@ class TeacherController {
 
     // teacher matched!
     const secretKey = process.env.SECRET_JWT || "";
-    const token = jwt.sign({ teacher_id: teacher.id.toString() }, secretKey, {
+    const token = jwt.sign({ teacher_id: teacher.teacher_id.toString() }, secretKey, {
       expiresIn: "24h",
     });
 

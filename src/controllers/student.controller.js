@@ -53,7 +53,7 @@ class StudentController {
   };
 
   getStudentById = async (req, res, next) => {
-    const student = await StudentModel.findOne({ id: req.params.id });
+    const student = await StudentModel.findOne({ student_id: req.params.id });
     if (!student) {
       throw new HttpException(404, "Student not found");
     }
@@ -147,7 +147,7 @@ class StudentController {
 
     // student matched!
     const secretKey = process.env.SECRET_JWT || "";
-    const token = jwt.sign({ student_id: student.id.toString() }, secretKey, {
+    const token = jwt.sign({ student_id: student.student_id.toString() }, secretKey, {
       expiresIn: "24h",
     });
 

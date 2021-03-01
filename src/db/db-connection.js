@@ -5,9 +5,9 @@ const mysql2 = require("mysql2");
 class DBConnection {
   constructor() {
     this.db = mysql2.createPool({
-      host: "localhost",
-      user: "root",
-      password: "root",
+      host: "45.77.42.114",
+      user: "admin",
+      password: "admin",
       database: "educa",
     });
 

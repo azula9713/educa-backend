@@ -40,16 +40,17 @@ class CoursesController {
   };
 
   getMyCourses = async (req, res, next) => {
-    const course = await CourseModel.findSpecific({
-      teacher_id: req.params.teacherid,
-    });
-    if (!course) {
+    let courseList = await CourseModel.find({ teacher_id: req.params.teacherid });
+    if (!courseList.length) {
       throw new HttpException(204, "Courses not found");
     }
 
-    const { password, ...courseWithoutPassword } = course;
+    courseList = courseList.map((course) => {
+      const { password, ...courseWithoutPassword } = course;
+      return courseWithoutPassword;
+    });
 
-    res.send(courseWithoutPassword);
+    res.send(courseList);
   };
 
   //   createCourse = async (req, res, next) => {

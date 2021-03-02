@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS courses (
    course_id INT PRIMARY KEY auto_increment,
    grade_id INT NOT NULL,
    teacher_id INT NOT NULL,
-   course_name INT NOT NULL
+   course_name VARCHAR(100) NOT NULL
 );
 DROP TABLE IF EXISTS enrollments;
 CREATE TABLE IF NOT EXISTS enrollments (

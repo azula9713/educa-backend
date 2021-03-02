@@ -1,5 +1,4 @@
 const { body } = require("express-validator");
-const Role = require("../../utils/Roles.utils");
 
 exports.createTeacherSchema = [
   body("first_name")
@@ -30,10 +29,6 @@ exports.createTeacherSchema = [
     .isMobilePhone()
     .withMessage("Must be a valid mobile number")
     .trim(),
-  body("role")
-    .optional()
-    .isIn([Role.Teacher, Role.SuperUser])
-    .withMessage("Invalid Role type"),
   body("password")
     .exists()
     .withMessage("Password is required")
@@ -73,10 +68,6 @@ exports.updateTeacherSchema = [
     .optional()
     .isMobilePhone()
     .withMessage("Must be a valid mobile number"),
-  body("role")
-    .optional()
-    .isIn([Role.Teacher, Role.SuperUser])
-    .withMessage("Invalid Role type"),
   body("password")
     .optional()
     .notEmpty()
@@ -103,7 +94,6 @@ exports.updateTeacherSchema = [
         "password",
         "confirm_password",
         "email",
-        "role",
         "mobile",
         "first_name",
         "last_name",

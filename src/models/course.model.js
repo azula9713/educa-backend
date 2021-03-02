@@ -1,7 +1,7 @@
 const query = require("../db/db-connection");
 const { multipleColumnSet } = require("../utils/common.utils");
-class TeacherModel {
-  tableName = "teacher";
+class CourseModel {
+  tableName = "courses";
 
   find = async (params = {}) => {
     let sql = `SELECT * FROM ${this.tableName}`;
@@ -12,6 +12,20 @@ class TeacherModel {
 
     const { columnSet, values } = multipleColumnSet(params);
     sql += ` WHERE ${columnSet}`;
+
+    return await query(sql, [...values]);
+  };
+
+  findSpecific = async (params) => {
+    let sql = `SELECT * FROM ${this.tableName}`;
+
+    if (!Object.keys(params).length) {
+      return await query(sql);
+    }
+
+    const { columnSet, values } = multipleColumnSet(params);
+    sql += ` WHERE ${columnSet}`;
+    console.log(sql);
 
     return await query(sql, [...values]);
   };
@@ -28,27 +42,11 @@ class TeacherModel {
     return result[0];
   };
 
-  create = async ({
-    email,
-    password,
-    first_name,
-    last_name,
-    nic,
-    avatar,
-    mobile,
-  }) => {
+  create = async ({ grade_id, teacher_id, course_name }) => {
     const sql = `INSERT INTO ${this.tableName}
-        (email, password, first_name, last_name, nic, avatar, mobile) VALUES (?,?,?,?,?,?,?)`;
+        (grade_id, teacher_id, course_name) VALUES (?,?,?)`;
 
-    const result = await query(sql, [
-      email,
-      password,
-      first_name,
-      last_name,
-      nic,
-      avatar,
-      mobile,
-    ]);
+    const result = await query(sql, [grade_id, teacher_id, course_name]);
     const affectedRows = result ? result.affectedRows : 0;
 
     return affectedRows;
@@ -57,7 +55,7 @@ class TeacherModel {
   update = async (params, id) => {
     const { columnSet, values } = multipleColumnSet(params);
 
-    const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE teahcer_id = ?`;
+    const sql = `UPDATE ${this.tableName} SET ${columnSet} WHERE course_id = ?`;
 
     const result = await query(sql, [...values, id]);
 
@@ -66,7 +64,7 @@ class TeacherModel {
 
   delete = async (id) => {
     const sql = `DELETE FROM ${this.tableName}
-        WHERE teacher_id = ?`;
+        WHERE course_id = ?`;
     const result = await query(sql, [id]);
     const affectedRows = result ? result.affectedRows : 0;
 
@@ -74,4 +72,4 @@ class TeacherModel {
   };
 }
 
-module.exports = new TeacherModel();
+module.exports = new CourseModel();

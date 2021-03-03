@@ -50,15 +50,16 @@ CREATE TABLE IF NOT EXISTS courses (
    course_id INT PRIMARY KEY auto_increment,
    grade_id INT NOT NULL,
    teacher_id INT NOT NULL,
+   amount FLOAT NOT NULL,
    course_name VARCHAR(100) NOT NULL
 );
 DROP TABLE IF EXISTS enrollments;
-CREATE TABLE IF NOT EXISTS enrollments (
+CREATE TABLE IF NOT EXISTS enrollments (  
    enrollment_id INT PRIMARY KEY auto_increment,
    course_id INT NOT NULL,
    student_id INT NOT NULL,
-   enrolled_date DATETIME NOT NULL,
-   amount INT NOT NULL
+   enrolled_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+   is_approved BOOLEAN NOT NULL DEFAULT FALSE
 );
 DROP TABLE IF EXISTS course_materials;
 CREATE TABLE IF NOT EXISTS course_materials (

@@ -28,29 +28,29 @@ class StudentController {
     let studentList = await StudentModel.findPending();
     if (!studentList.length) {
       // res.send("No non accepted students found");
-      throw new HttpException(204, "No pending students found!");
+      await res.status(204).send("No pending students found");
+    } else {
+      studentList = studentList.map((student) => {
+        const { password, ...studentrWithoutPassword } = student;
+        return studentrWithoutPassword;
+      });
+
+      res.send(studentList);
     }
-
-    studentList = studentList.map((student) => {
-      const { password, ...studentrWithoutPassword } = student;
-      return studentrWithoutPassword;
-    });
-
-    res.send(studentList);
   };
 
   getAllAcceptedStudents = async (req, res, next) => {
     let studentList = await StudentModel.findAccepted();
     if (!studentList.length) {
-      throw new HttpException(204, "No accepted students found");
+      await res.status(204).send("No pending students found");
+    } else {
+      studentList = studentList.map((student) => {
+        const { password, ...studentrWithoutPassword } = student;
+        return studentrWithoutPassword;
+      });
+
+      res.send(studentList);
     }
-
-    studentList = studentList.map((student) => {
-      const { password, ...studentrWithoutPassword } = student;
-      return studentrWithoutPassword;
-    });
-
-    res.send(studentList);
   };
 
   getStudentById = async (req, res, next) => {
@@ -107,7 +107,7 @@ class StudentController {
     const result = await StudentModel.update(restOfUpdates, req.params.id);
 
     if (!result) {
-      throw new HttpException(404, "Something went wrong");
+      throw new HttpException(401, "Something went wrong");
     }
 
     const { affectedRows, changedRows, info } = result;

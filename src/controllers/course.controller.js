@@ -12,45 +12,48 @@ class CoursesController {
     let courseList = await CourseModel.find();
     if (!courseList.length) {
       throw new HttpException(204, "Courses not found");
+    } else {
+      courseList = courseList.map((course) => {
+        const { password, ...courseWithoutPassword } = course;
+        return courseWithoutPassword;
+      });
+
+      res.send(courseList);
     }
-
-    courseList = courseList.map((course) => {
-      const { password, ...courseWithoutPassword } = course;
-      return courseWithoutPassword;
-    });
-
-    res.send(courseList);
   };
 
   getCourseById = async (req, res, next) => {
     let courseList = await CourseModel.findOne({ course_id: req.params.id });
     if (!courseList.length) {
       throw new HttpException(204, "Course not found");
+    } else {
+      courseList = courseList.map((course) => {
+        const { password, ...courseWithoutPassword } = course;
+        return courseWithoutPassword;
+      });
+
+      res.send(courseList);
     }
 
     // const { password, ...courseWithoutPassword } = course;
 
     // res.send(courseWithoutPassword);
-    courseList = courseList.map((course) => {
-      const { password, ...courseWithoutPassword } = course;
-      return courseWithoutPassword;
-    });
-
-    res.send(courseList);
   };
 
   getMyCourses = async (req, res, next) => {
-    let courseList = await CourseModel.find({ teacher_id: req.params.teacherid });
+    let courseList = await CourseModel.find({
+      teacher_id: req.params.teacherid,
+    });
     if (!courseList.length) {
       throw new HttpException(204, "Courses not found");
+    } else {
+      courseList = courseList.map((course) => {
+        const { password, ...courseWithoutPassword } = course;
+        return courseWithoutPassword;
+      });
+
+      res.send(courseList);
     }
-
-    courseList = courseList.map((course) => {
-      const { password, ...courseWithoutPassword } = course;
-      return courseWithoutPassword;
-    });
-
-    res.send(courseList);
   };
 
   //   createCourse = async (req, res, next) => {

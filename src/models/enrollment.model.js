@@ -1,9 +1,9 @@
 const query = require("../db/db-connection");
 const { multipleColumnSet } = require("../utils/common.utils");
-class CourseModel {
-  tableName = "courses";
+class EnrollmentModel {
+  tableName = "enrollments";
 
-  find =  async (params = {}) => {
+  find = async (params = {}) => {
     let sql = `SELECT * FROM ${this.tableName}`;
 
     if (!Object.keys(params).length) {
@@ -28,11 +28,11 @@ class CourseModel {
     return result[0];
   };
 
-  create = async ({ grade_id, teacher_id, course_name }) => {
+  create = async ({ course_id, student_id, amount }) => {
     const sql = `INSERT INTO ${this.tableName}
-        (grade_id, teacher_id, course_name) VALUES (?,?,?)`;
+        (course_id, student_id) VALUES (?,?)`;
 
-    const result = await query(sql, [grade_id, teacher_id, course_name]);
+    const result = await query(sql, [course_id, student_id]);
     const affectedRows = result ? result.affectedRows : 0;
 
     return affectedRows;
@@ -50,7 +50,7 @@ class CourseModel {
 
   delete = async (id) => {
     const sql = `DELETE FROM ${this.tableName}
-        WHERE course_id = ?`;
+        WHERE enrollment_id = ?`;
     const result = await query(sql, [id]);
     const affectedRows = result ? result.affectedRows : 0;
 
@@ -58,4 +58,4 @@ class CourseModel {
   };
 }
 
-module.exports = new CourseModel();
+module.exports = new EnrollmentModel();

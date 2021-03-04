@@ -15,12 +15,28 @@ dotenv.config();
 // parses incoming requests with JSON payloads
 app.use(express.json());
 // enabling cors for all requests by using cors middleware
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    credentials: true,
-  })
-);
+
+app.use((req, res, next) => {
+  const allowedOrigins = ["http://localhost:3000", "http://localhost:8080"];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
+  //res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8020');
+  res.header(
+    "Access-Control-Allow-Methods",
+    "GET,POST, PATCH, DELETE ,OPTIONS"
+  );
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", true);
+  return next();
+});
+// app.use(
+//   cors({
+//     origin: "http://localhost:3000",
+//     credentials: true,
+//   })
+// );
 
 const port = Number(process.env.PORT || 3331);
 
